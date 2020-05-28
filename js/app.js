@@ -1,4 +1,3 @@
-// store individual questions as objects
 class Question {
   constructor(question, optionA, optionB, optionC, optionD, correctAnswer) {
     this.question = question;
@@ -128,7 +127,7 @@ const question15 = new Question(
   "Suke Suke no Mi - Invisibility",
   "Horu Horu no Mi - Hormones",
   "Mero Mero no Mi - Love",
-  "B" 
+  "B"
 );
 const question16 = new Question(
   "What is the name of the Kingdom led by the Vinsmoke Family?",
@@ -211,8 +210,6 @@ const question25 = new Question(
   "A"
 );
 
-
-// store question objects in an array
 const questionsArray = [
   question1,
   question2,
@@ -238,15 +235,13 @@ const questionsArray = [
   question22,
   question23,
   question24,
-  question25
+  question25,
 ];
 
-// quiz variables
 let score = 0;
 let currentQuestion = 0;
 let submitClicks = -1;
 
-// display question
 function displayQuestion() {
   document.querySelector(".question").textContent =
     questionsArray[currentQuestion].question;
@@ -264,10 +259,6 @@ function displayQuestion() {
   ).textContent = `d. ${questionsArray[currentQuestion].optionD}`;
 }
 
-// display correct or incorrect
-
-
-// clear radio buttons
 function clearRadios() {
   const radioButtonArray = document.getElementsByName("quiz");
 
@@ -277,16 +268,13 @@ function clearRadios() {
   }
 }
 
-// initialize new quiz
 initialize();
 
-// on submit click
 document.querySelector(".submit").addEventListener("click", () => {
   let selected, answer;
-  // track number of times submit has been clicked
-  submitClicks++
 
-  // read value of selected answer
+  submitClicks++;
+
   selected = document.querySelector('input[name="quiz"]:checked');
 
   if (selected !== null) {
@@ -295,41 +283,30 @@ document.querySelector(".submit").addEventListener("click", () => {
     alert("please select an answer");
   }
 
-  // compare value of submitted answer to value of correct answer
-  // if answer is correct
   if (answer === questionsArray[currentQuestion].correctAnswer) {
-    // display 'correct!'
     document.querySelector(".question").textContent = "CORRECT ANSWER!";
 
-    // increase score
     score++;
-
   } else {
-    // display the correct answer
     document.querySelector(
       ".question"
     ).textContent = `Sorry, the correct answer is: ${questionsArray[currentQuestion].correctAnswer}`;
   }
 
-  // update score on UI
   document.querySelector(".score").textContent = `Current Score: ${score}`;
 });
 
-// on 'next' button click
 document.querySelector(".next").addEventListener("click", () => {
   selected = document.querySelector('input[name="quiz"]:checked');
-  // as long as previous question has been answered
+
   if (submitClicks === currentQuestion) {
-    // clear radio buttons
     clearRadios();
 
     currentQuestion++;
 
-    // if all questions have been answered
     if (currentQuestion >= questionsArray.length) {
       let title;
 
-      // hide quiz and display final score
       document.querySelector(
         ".question"
       ).textContent = `Your final score is: ${score} / 25`;
@@ -337,9 +314,8 @@ document.querySelector(".next").addEventListener("click", () => {
       document.querySelector(".answer-box").style.display = "none";
       document.querySelector(".button-wrap").style.display = "none";
 
-      // award title based on score range
       if (score > 23) {
-        title = "One Piece Master";
+        title = "Pirate King";
       } else if (score >= 20) {
         title = "Yonko";
       } else if (score >= 17) {
@@ -354,25 +330,19 @@ document.querySelector(".next").addEventListener("click", () => {
         title = "Chore Boy";
       }
 
-      // display title
       document.querySelector(".score-box").style.display = "none";
       document.querySelector(".award-title").style.display = "block";
       document.querySelector(
         ".award-title"
       ).textContent = `Your title is: ${title}`;
-
-      // if all question have not yet been answered
     } else {
-      // display new question
       displayQuestion();
     }
-
   } else {
     alert("please select an answer and hit 'Submit'");
   }
 });
 
-// initialization function
 function initialize() {
   if (currentQuestion > 0) {
     currentQuestion = 0;
